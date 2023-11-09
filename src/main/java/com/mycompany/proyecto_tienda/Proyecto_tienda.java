@@ -12,8 +12,12 @@ import javax.swing.JOptionPane;
  */
 public class Proyecto_tienda {
 
-    public static void main(String[] args) {
-        JOptionPane.showMessageDialog(null, "Este es un mensaje de información.");
+  public static void main(String[] args) {
+        int[] numeros = {1, 2, 3, 4, 5};
 
+        System.out.println("Elementos del array:");
+        for (int i = 0; i < numeros.length; i++) {
+            System.out.println(numeros[i]);
+        }
     }
 }
