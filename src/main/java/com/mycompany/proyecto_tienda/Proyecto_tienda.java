@@ -4,6 +4,8 @@
  */
 package com.mycompany.proyecto_tienda;
 
+import presentacion.FrmClientes;
+
 /**
  *
  * @author Martin Cardozo
@@ -14,7 +16,13 @@ public class Proyecto_tienda {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        // TODO code application logic here
+         // Crear una instancia del formulario frmCliente
+        FrmClientes formularioCliente = new FrmClientes();
+
+        // Hacer visible el formulario
+        formularioCliente.setVisible(true);
+
+        // Lógica adicional si es necesario
     }
     
 }

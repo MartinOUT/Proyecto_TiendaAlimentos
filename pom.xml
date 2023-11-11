@@ -11,4 +11,12 @@
         <maven.compiler.target>19</maven.compiler.target>
         <exec.mainClass>com.mycompany.proyecto_tienda.Proyecto_tienda</exec.mainClass>
     </properties>
+    <dependencies>
+    <!-- Otras dependencias -->
+    <dependency>
+        <groupId>mysql</groupId>
+        <artifactId>mysql-connector-java</artifactId>
+        <version>8.0.23</version> <!-- Ajusta la versión según la que estés utilizando -->
+    </dependency>
+</dependencies>
 </project>

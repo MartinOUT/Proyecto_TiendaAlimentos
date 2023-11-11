@@ -11,22 +11,17 @@ import javax.swing.JOptionPane;
  * @author Martin Cardozo
  */
 public class Conexion {
-    public String db = "tienda_alimentos";
-    public String url = "jdbc:mysql://127.0.0.1/"+db;
-    public String user = "root";
-    public String pass = "";
+    private final String URL = "jdbc:mysql://localhost:3307/tienda_alimentos";
+    private final String USER = "root";
+    private final String PASSWORD = "";
 
-    public Conexion() {
-    }
-    
-    public Connection conectar() throws ClassNotFoundException{
-        Connection link =null;
+    public Connection getConnection() throws SQLException {
         try {
-            Class.forName("org.gjt.mm.mysql.Driver");
-            link=DriverManager.getConnection(this.url, this.user, this.pass);
-        }catch (SQLException e){
-            JOptionPane.showConfirmDialog(null, e);
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            return DriverManager.getConnection(URL, USER, PASSWORD);
+        } catch (ClassNotFoundException e) {
+            throw new SQLException("MySQL JDBC Driver no encontrado", e);
         }
-        return link;
     }
+
 }
