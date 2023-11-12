@@ -38,10 +38,38 @@ public class frmproducto extends javax.swing.JFrame {
                 modelo.addRow(productos);        
             }
             tabladatos.setModel(modelo);
-        }catch (Exception e){
-            
+        }catch (Exception e){ 
         }
     }
+    
+    void agregar() {      
+        id =Integer.parseInt(txtid.getText());
+        String nombre= txtnombre.getText();
+        String descuento= txtdesc.getText();
+        int precio= Integer.parseInt(txtprecio.getText());
+        
+        if(nombre.equals("") || descuento.equals("")){
+            JOptionPane.showMessageDialog(null, "Debe rellenar todos los campos!!!");
+        }else {
+            String sql = "Insert into productos (idPRODUCTOS, nom_producto, desc_producto,precio) values ('"+id+"','"+nombre+"','"+descuento+"','"+precio+"')";
+            try {
+                cn = con.getConnection();
+                st = cn.createStatement();
+                st.executeUpdate(sql);
+                JOptionPane.showMessageDialog(null,"Producto agregado");
+                limpiartabla();
+                
+            } catch (Exception e){
+            }
+        }
+    }
+    void limpiartabla(){
+        for(int i = 0; i<=tabladatos.getRowCount();i++){
+            modelo.removeRow(i);
+            i=i-1;
+        }
+    }
+            
  
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -211,6 +239,11 @@ public class frmproducto extends javax.swing.JFrame {
                 "ID", "Nombre", "Descuento", "Precio"
             }
         ));
+        tabladatos.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tabladatosMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tabladatos);
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
@@ -273,7 +306,8 @@ public class frmproducto extends javax.swing.JFrame {
     }//GEN-LAST:event_txtprecioActionPerformed
 
     private void btnmodActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnmodActionPerformed
-        // TODO add your handling code here:
+        modificar();
+        listar();
     }//GEN-LAST:event_btnmodActionPerformed
 
     private void btnelimActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnelimActionPerformed
@@ -281,9 +315,44 @@ public class frmproducto extends javax.swing.JFrame {
     }//GEN-LAST:event_btnelimActionPerformed
 
     private void btnagreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnagreActionPerformed
-        // TODO add your handling code here:
+        agregar();
+        listar();
     }//GEN-LAST:event_btnagreActionPerformed
 
+    private void tabladatosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabladatosMouseClicked
+        int fila= tabladatos.getSelectedRow();
+        if (fila==-1){
+            JOptionPane.showMessageDialog(null, "Usuario no seleccionado");
+        } else {
+            id=Integer.parseInt((String)tabladatos.getValueAt(fila, 0).toString());
+            String nombre=(String)tabladatos.getValueAt(fila,1);
+            String descuento=(String)tabladatos.getValueAt(fila,2);
+            int precio=Integer.parseInt((String)tabladatos.getValueAt(fila,3).toString());
+            txtid.setText(""+id);
+            txtnombre.setText(nombre);
+            txtdesc.setText(descuento);
+            txtprecio.setText(""+precio);     
+        }        
+    }//GEN-LAST:event_tabladatosMouseClicked
+    void modificar(){
+    id =Integer.parseInt(txtid.getText());
+    String nombre= txtnombre.getText();
+    String descuento= txtdesc.getText();
+    int precio= Integer.parseInt(txtprecio.getText());
+    String sql= "update productos set nom_producto='"+nombre+"',desc_producto='"+descuento+"',precio='"+precio+"'where idPRODUCTOS="+id;
+    try{
+       cn = con.getConnection();
+       st = cn.createStatement();
+                st.executeUpdate(sql);
+                JOptionPane.showMessageDialog(null,"Producto modificado");
+                limpiartabla();
+                
+            } catch (Exception e){
+            }
+        }
+    
+
+     
     /**
      * @param args the command line arguments
      */
