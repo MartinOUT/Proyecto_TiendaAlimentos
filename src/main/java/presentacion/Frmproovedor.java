@@ -332,6 +332,7 @@ public class Frmproovedor extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_tabladatosMouseClicked
     void modificar(){
+       
         int id= Integer.parseInt(txtid.getText());
         String nombre=txtnombre.getText();
         String telefono=txttelefono.getText();
