@@ -63,12 +63,54 @@ public class frmproducto extends javax.swing.JFrame {
             }
         }
     }
+void modificar(){
+    id =Integer.parseInt(txtid.getText());
+    String nombre= txtnombre.getText();
+    String descuento= txtdesc.getText();
+    int precio= Integer.parseInt(txtprecio.getText());
+    String sql= "update productos set nom_producto='"+nombre+"',desc_producto='"+descuento+"',precio='"+precio+"'where idPRODUCTOS="+id;
+    try{
+       cn = con.getConnection();
+       st = cn.createStatement();
+                st.executeUpdate(sql);
+                JOptionPane.showMessageDialog(null,"Producto modificado");
+                limpiartabla();
+                
+            } catch (Exception e){
+            }
+        }
+    
     void limpiartabla(){
         for(int i = 0; i<=tabladatos.getRowCount();i++){
             modelo.removeRow(i);
             i=i-1;
         }
     }
+ 
+     void eliminar(){
+        int id= Integer.parseInt(txtid.getText());
+        int filaseleccionado = tabladatos.getSelectedRow();
+        if(filaseleccionado==-1){
+            JOptionPane.showMessageDialog(null, "Debe seleccionar una fila");
+        }else{
+            String sql = "delete from productos where  idPRODUCTOS ="+id;
+            try {
+                cn = con.getConnection();
+                st = cn.createStatement();
+                st.executeUpdate(sql);
+                JOptionPane.showMessageDialog(null, "El usuario fue eliminado correctamente");
+                limpiartabla();
+            } catch (Exception e) {
+            }
+        }
+    }
+    void nuevo(){
+        txtid.setText("");
+        txtnombre.setText("");
+        txtdesc.setText("");
+        txtprecio.setText("");
+        txtid.requestFocus();
+   }
             
  
     @SuppressWarnings("unchecked")
@@ -201,6 +243,11 @@ public class frmproducto extends javax.swing.JFrame {
         });
 
         btnnue.setText("NUEVO");
+        btnnue.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnnueActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -311,7 +358,9 @@ public class frmproducto extends javax.swing.JFrame {
     }//GEN-LAST:event_btnmodActionPerformed
 
     private void btnelimActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnelimActionPerformed
-        // TODO add your handling code here:
+        eliminar();
+        listar();
+        nuevo();
     }//GEN-LAST:event_btnelimActionPerformed
 
     private void btnagreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnagreActionPerformed
@@ -334,22 +383,10 @@ public class frmproducto extends javax.swing.JFrame {
             txtprecio.setText(""+precio);     
         }        
     }//GEN-LAST:event_tabladatosMouseClicked
-    void modificar(){
-    id =Integer.parseInt(txtid.getText());
-    String nombre= txtnombre.getText();
-    String descuento= txtdesc.getText();
-    int precio= Integer.parseInt(txtprecio.getText());
-    String sql= "update productos set nom_producto='"+nombre+"',desc_producto='"+descuento+"',precio='"+precio+"'where idPRODUCTOS="+id;
-    try{
-       cn = con.getConnection();
-       st = cn.createStatement();
-                st.executeUpdate(sql);
-                JOptionPane.showMessageDialog(null,"Producto modificado");
-                limpiartabla();
-                
-            } catch (Exception e){
-            }
-        }
+
+    private void btnnueActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnnueActionPerformed
+        nuevo();
+    }//GEN-LAST:event_btnnueActionPerformed
     
 
      

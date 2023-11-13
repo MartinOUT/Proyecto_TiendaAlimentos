@@ -11,7 +11,7 @@ import javax.swing.JOptionPane;
  * @author Martin Cardozo
  */
 public class Conexion {
-    private final String URL = "jdbc:mysql://localhost:3306/tienda_alimentos";
+    private final String URL = "jdbc:mysql://localhost:3307/tienda_alimentos";
     private final String USER = "root";
     private final String PASSWORD = "";
 
