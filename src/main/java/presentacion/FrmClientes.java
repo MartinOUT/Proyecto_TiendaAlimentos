@@ -269,12 +269,6 @@ public class FrmClientes extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
-        Agregar();
-        listar();
-        nuevo();
-    }//GEN-LAST:event_btnAgregarActionPerformed
-
     private void TablaDatosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TablaDatosMouseClicked
         int fila=TablaDatos.getSelectedRow();
         if(fila == -1){
@@ -295,11 +289,9 @@ public class FrmClientes extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_TablaDatosMouseClicked
 
-    private void btnModActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModActionPerformed
-        modificar();
-        listar();
+    private void btnNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoActionPerformed
         nuevo();
-    }//GEN-LAST:event_btnModActionPerformed
+    }//GEN-LAST:event_btnNuevoActionPerformed
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
         eliminar();
@@ -307,9 +299,17 @@ public class FrmClientes extends javax.swing.JFrame {
         nuevo();
     }//GEN-LAST:event_btnEliminarActionPerformed
 
-    private void btnNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoActionPerformed
+    private void btnModActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModActionPerformed
+        modificar();
+        listar();
         nuevo();
-    }//GEN-LAST:event_btnNuevoActionPerformed
+    }//GEN-LAST:event_btnModActionPerformed
+
+    private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
+        Agregar();
+        listar();
+        nuevo();
+    }//GEN-LAST:event_btnAgregarActionPerformed
 
     /**
      * @param args the command line arguments

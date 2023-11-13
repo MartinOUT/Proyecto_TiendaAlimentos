@@ -5,6 +5,7 @@
 package com.mycompany.proyecto_tienda;
 
 import presentacion.FrmClientes;
+import presentacion.FrmEmpleado;
 import presentacion.Frmproovedor;
 import presentacion.frmproducto;
 
@@ -19,7 +20,7 @@ public class Proyecto_tienda {
      */
     public static void main(String[] args) {
          // Crear una instancia del formulario frmCliente
-       frmproducto formularioCliente = new frmproducto();
+       FrmEmpleado formularioCliente = new FrmEmpleado();
 
         // Hacer visible el formulario
         formularioCliente.setVisible(true);
