@@ -181,6 +181,11 @@ public class Frmproovedor extends javax.swing.JFrame {
         });
 
         btnnuevo.setText("NUEVO");
+        btnnuevo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnnuevoActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -311,7 +316,9 @@ public class Frmproovedor extends javax.swing.JFrame {
     }//GEN-LAST:event_btnmodificarActionPerformed
 
     private void btneliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btneliminarActionPerformed
-        // TODO add your handling code here:
+        eliminar();
+        listar();
+        nuevo();
     }//GEN-LAST:event_btneliminarActionPerformed
 
     private void tabladatosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabladatosMouseClicked
@@ -331,6 +338,10 @@ public class Frmproovedor extends javax.swing.JFrame {
             txtemail.setText(email);
         }
     }//GEN-LAST:event_tabladatosMouseClicked
+
+    private void btnnuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnnuevoActionPerformed
+        nuevo();
+    }//GEN-LAST:event_btnnuevoActionPerformed
     void modificar(){
        
         int id= Integer.parseInt(txtid.getText());
@@ -432,6 +443,31 @@ public class Frmproovedor extends javax.swing.JFrame {
         i=i-1;
     }
     }
+    void eliminar(){
+        int id=Integer.parseInt(txtid.getText());
+        int fila= tabladatos.getSelectedRow();
+        if(fila==-1){
+            JOptionPane.showMessageDialog(null, "Debe seleccionar una fila");
+        }else{
+            String sql = "delete from proovedor where  idPROOVEDOR ="+id;
+            try {
+                cn = con.getConnection();
+                st = cn.createStatement();
+                st.executeUpdate(sql);
+                JOptionPane.showMessageDialog(null, "El usuario fue eliminado correctamente");
+                limpiartabla();
+            } catch (Exception e) {
+            }
+        }
+    }
+    void nuevo(){
+        txtid.setText("");
+        txtnombre.setText("");
+        txtemail.setText("");
+        txttelefono.setText("");
+        txtdireccion.setText("");
+        txtid.requestFocus();
+   }
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -21,7 +21,7 @@ public class Proyecto_tienda {
      */
     public static void main(String[] args) {
          // Crear una instancia del formulario frmCliente
-       frmcompra formularioCliente = new frmcompra();
+          Frmproovedor formularioCliente = new Frmproovedor ();
 
         // Hacer visible el formulario
         formularioCliente.setVisible(true);
