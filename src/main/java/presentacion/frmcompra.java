@@ -5,11 +5,14 @@
 package presentacion;
 
 import java.sql.*;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.HashSet;
 import java.util.Set;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import logica.Conexion;
+
 
 
 public class frmcompra extends javax.swing.JFrame {
@@ -25,6 +28,7 @@ public class frmcompra extends javax.swing.JFrame {
         setLocationRelativeTo(null);
         listar();
         modelo = (DefaultTableModel) TablaDatos.getModel();
+        
     }
 
     /**
@@ -45,12 +49,14 @@ public class frmcompra extends javax.swing.JFrame {
         txtCantidad = new javax.swing.JTextField();
         txtidCompra = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        txtCliente = new javax.swing.JTextField();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         TablaDatos = new javax.swing.JTable();
         btnFinalizar = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
+        txtTotal = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jComboBox1 = new javax.swing.JComboBox<>();
 
@@ -78,6 +84,14 @@ public class frmcompra extends javax.swing.JFrame {
 
         jLabel2.setText("ID Compra");
 
+        jLabel5.setText("ID CLIENTE");
+
+        txtCliente.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtClienteActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -85,18 +99,22 @@ public class frmcompra extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(27, 27, 27)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel7)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtCantidad, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(txtidCompra, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(28, 28, 28)
+                    .addComponent(jLabel5)
+                    .addComponent(jLabel2))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(txtidCompra, javax.swing.GroupLayout.DEFAULT_SIZE, 76, Short.MAX_VALUE)
+                    .addComponent(txtCliente))
+                .addGap(28, 28, 28)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel3)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtIDProducto, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(txtIDProducto, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel7)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtCantidad, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(40, 40, 40)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel1)
@@ -118,7 +136,9 @@ public class frmcompra extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7)
-                    .addComponent(txtCantidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtCantidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel5)
+                    .addComponent(txtCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(24, 24, 24))
         );
 
@@ -161,8 +181,8 @@ public class frmcompra extends javax.swing.JFrame {
         jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel4.setText("TOTAL COMPRA :");
 
-        jLabel5.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        jLabel5.setText("0");
+        txtTotal.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        txtTotal.setText("0");
 
         jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel6.setText("DESCUENTO :");
@@ -184,7 +204,7 @@ public class frmcompra extends javax.swing.JFrame {
                                 .addGroup(layout.createSequentialGroup()
                                     .addComponent(jLabel4)
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jLabel5)
+                                    .addComponent(txtTotal)
                                     .addGap(8, 8, 8)))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel6)
@@ -212,7 +232,7 @@ public class frmcompra extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel4)
-                            .addComponent(jLabel5))
+                            .addComponent(txtTotal))
                         .addGap(36, 36, 36)
                         .addComponent(btnFinalizar)
                         .addGap(34, 34, 34))))
@@ -228,12 +248,18 @@ public class frmcompra extends javax.swing.JFrame {
     }//GEN-LAST:event_btnAgregarActionPerformed
 
     private void btnFinalizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFinalizarActionPerformed
-        // TODO add your handling code here:
+        Finalizar();
+        dispose();
+        
     }//GEN-LAST:event_btnFinalizarActionPerformed
 
     private void txtCantidadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCantidadActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtCantidadActionPerformed
+
+    private void txtClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtClienteActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtClienteActionPerformed
 
   
     
@@ -305,6 +331,7 @@ public class frmcompra extends javax.swing.JFrame {
     int idProducto = Integer.parseInt(txtIDProducto.getText());
     int Cantidad = Integer.parseInt(txtCantidad.getText());
     int PrecioTotal;
+    String edit = "";
 
     String sqlNombre = "SELECT * FROM productos WHERE idPRODUCTOS=?";
     
@@ -316,17 +343,27 @@ public class frmcompra extends javax.swing.JFrame {
                 if (rs.next()) {
                     nombre_producto = rs.getString("nom_producto");
                     PrecioTotal = rs.getInt("Precio");
-
+                    String sql0 = "INSERT INTO pruebacompra (idPrueba, edit) VALUES (?, ?)";
+                    try (Connection cnPruebaCompra = con.getConnection();
+                            PreparedStatement pstPruebaCompra = cnPruebaCompra.prepareStatement(sql0)) {
+                            pstPruebaCompra.setInt(1, idCompra);
+                            pstPruebaCompra.setString(2, edit);
+                            pstPruebaCompra.executeUpdate();
+                        
+                    } catch (Exception e) {
+                         e.printStackTrace();
+                    }
                     String sql = "INSERT INTO carritonuevo (idPrueba, nombre_producto, Cantidad, PrecioTotal) VALUES (?, ?, ?, ?)";
                     try (Connection cnCarrito = con.getConnection();
                          PreparedStatement pstCarrito = cnCarrito.prepareStatement(sql)) {
                         pstCarrito.setInt(1, idCompra);
                         pstCarrito.setString(2, nombre_producto);
                         pstCarrito.setInt(3, Cantidad);
-                        pstCarrito.setInt(4, PrecioTotal);
+                        pstCarrito.setInt(4, PrecioTotal*Cantidad);
                         pstCarrito.executeUpdate();
 
                         JOptionPane.showMessageDialog(null, "Producto agregado correctamente");
+                        Total();
                         limpiartabla();
                     } catch (SQLException e) {
                         e.printStackTrace();
@@ -341,6 +378,7 @@ public class frmcompra extends javax.swing.JFrame {
     }
 }
 
+
      void limpiartabla() {
         int rowCount = modelo.getRowCount();
         for (int i = rowCount - 1; i >= 0; i--) {
@@ -353,6 +391,68 @@ public class frmcompra extends javax.swing.JFrame {
         txtCantidad.setText("");
         txtIDProducto.requestFocus();
    }
+       void Total() {
+        String CompraID = txtidCompra.getText();
+        int TotalCompra = 0; // Inicializa la variable TotalCompra
+      
+        try {
+            String sql = "SELECT PrecioTotal FROM carritonuevo WHERE idPrueba = " + CompraID;
+            cn = con.getConnection();
+            st = cn.createStatement();
+            rs = st.executeQuery(sql);
+
+            // Iterar sobre los resultados y acumular en TotalCompra
+            while (rs.next()) {
+                int precioTotal = rs.getInt("PrecioTotal");
+                TotalCompra += precioTotal;
+                String Impresion = String.valueOf(TotalCompra).toString();
+                txtTotal.setText(Impresion);
+            }
+
+            // Resto de tu código...
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            // Cerrar recursos (ResultSet, Statement, Connection) en un bloque finally
+            try {
+                if (rs != null) rs.close();
+                if (st != null) st.close();
+                if (cn != null) cn.close();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+        }
+ 
+   }
+   int TotalHistorial() {
+       int Total = Integer.parseInt(txtTotal.getText());
+       return Total;
+   }
+   void Finalizar() {
+    int idCliente = Integer.parseInt(txtCliente.getText());
+    int idCompra = Integer.parseInt(txtidCompra.getText());
+    LocalDate date = LocalDate.now();
+    String fechaCompra = date.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+    int total = TotalHistorial();
+
+    String sql = "INSERT INTO historial_ventas (id_cliente, id_prueba, fecha_compra, total) VALUES (?, ?, ?, ?)";
+
+    try (Connection cn = con.getConnection();
+         PreparedStatement pstmt = cn.prepareStatement(sql)) {
+
+        pstmt.setInt(1, idCliente);
+        pstmt.setInt(2, idCompra);
+        pstmt.setString(3, fechaCompra);
+        pstmt.setInt(4, total);
+
+        pstmt.executeUpdate();
+
+        JOptionPane.showMessageDialog(null, "Compra realizada correctamente!!");
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+}
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTable TablaDatos;
@@ -370,7 +470,9 @@ public class frmcompra extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextField txtCantidad;
+    private javax.swing.JTextField txtCliente;
     private javax.swing.JTextField txtIDProducto;
+    private javax.swing.JLabel txtTotal;
     private javax.swing.JTextField txtidCompra;
     // End of variables declaration//GEN-END:variables
 }

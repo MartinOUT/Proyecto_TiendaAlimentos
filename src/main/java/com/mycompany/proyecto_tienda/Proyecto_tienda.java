@@ -8,6 +8,7 @@ import presentacion.FrmClientes;
 import presentacion.FrmEmpleado;
 import presentacion.Frmproovedor;
 import presentacion.frmcompra;
+import presentacion.frmpedido;
 import presentacion.frmproducto;
 
 /**
@@ -21,7 +22,7 @@ public class Proyecto_tienda {
      */
     public static void main(String[] args) {
          // Crear una instancia del formulario frmCliente
-          Frmproovedor formularioCliente = new Frmproovedor ();
+          frmcompra formularioCliente = new frmcompra();
 
         // Hacer visible el formulario
         formularioCliente.setVisible(true);

@@ -37,20 +37,18 @@ public frmpedido(){
         int idEMPLEADO= Integer.parseInt(txtidempleado.getText());
         int idPROVEEDOR= Integer.parseInt(txtidproveedor.getText());
         String comentario= txtcomentario.getText();
-       String sql="Update pedido set idPEDIDO='"+idPEDIDO+"', idPRODUCTOS='"+idPRODUCTOS+"', cantidad_pedidos='"+cantidad_pedidos+"', idEMPLEADO='"+idEMPLEADO+"', idPROVEEDOR='"+idPROVEEDOR+"', comentario='"+comentario+"' where idPEDIDO="+idPEDIDO;
-        if(comentario.equals("") ){
-            JOptionPane.showMessageDialog(null, "Debe rellenar todos los campos.");
-        }else {
-            try {
+       String sql="Update pedido set idPRODUCTOS='"+idPRODUCTOS+"', cantidad_pedidos='"+cantidad_pedidos+"', idEMPLEADO='"+idEMPLEADO+"', idPROVEEDOR='"+idPROVEEDOR+"', comentario='"+comentario+"' where idPEDIDO="+idPEDIDO;
+        try {
                 cn = con.getConnection();
                 st = cn.createStatement();
                 st.executeUpdate(sql);
                 JOptionPane.showMessageDialog(null,"Los datos han sido modificado exitosamente.");
                 limpiartabla();
             } catch (HeadlessException | SQLException e) {
+                
                     }
         }
-    }
+    
      void Agregar() {
         int idPEDIDO= Integer.parseInt(txtidpedido.getText());
         int idPRODUCTOS= Integer.parseInt(txtidproducto.getText());
@@ -91,7 +89,8 @@ public frmpedido(){
         }
         TablaDatos.setModel(modelo);
     } catch (Exception e) {
-        e.printStackTrace(); // Imprime la excepción para depurar posibles errores.
+        e.printStackTrace();
+        JOptionPane.showMessageDialog(null, "BASTAA LOCO");// Imprime la excepción para depurar posibles errores.
     } finally {
         try {
             // Cierra los recursos (ResultSet, Statement, Connection) en un bloque finally.
@@ -105,14 +104,13 @@ public frmpedido(){
     }
     
      
-    
-     void limpiartabla(){
-        for (int i=0;i<= TablaDatos.getRowCount();i++){
+  void limpiartabla() {
+    int rowCount = modelo.getRowCount();
+    for (int i = rowCount - 1; i >= 0; i--) {
         modelo.removeRow(i);
-        i=i-1;
-                }
-     }
-     
+    }
+}
+
      void eliminar(){
           int idPEDIDO= Integer.parseInt(txtidpedido.getText());
           int filaseleccionado=TablaDatos.getSelectedRow();
@@ -271,15 +269,17 @@ public frmpedido(){
 
         TablaDatos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null}
+
             },
             new String [] {
                 "ID PEDIDO", "ID PRODUCTO", "CANTIDAD", "ID EMPLEADO", "ID PROVEEDOR", "COMENTARIO"
             }
         ));
+        TablaDatos.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                TablaDatosMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(TablaDatos);
 
         jLabel7.setText("ID Pedido:");
@@ -423,6 +423,31 @@ public frmpedido(){
     private void nuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nuevoActionPerformed
         nuevo();      
     }//GEN-LAST:event_nuevoActionPerformed
+
+    private void TablaDatosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TablaDatosMouseClicked
+        int fila = TablaDatos.getSelectedRow();
+        if (fila == -1) {
+            JOptionPane.showMessageDialog(null, "Usuario no Seleccionado");
+        } else {
+            // Corregir el nombre de la variable para almacenar el valor del comentario
+            String comentario = (String) TablaDatos.getValueAt(fila, 5);
+
+            // Utilizar Integer.parseInt para convertir a int
+            int idPedido = Integer.parseInt(TablaDatos.getValueAt(fila, 0).toString());
+            int idProducto = Integer.parseInt(TablaDatos.getValueAt(fila, 1).toString());
+            int idCantidad = Integer.parseInt(TablaDatos.getValueAt(fila, 2).toString());
+            int idEmpleado = Integer.parseInt(TablaDatos.getValueAt(fila, 3).toString());
+            int idProveedor = Integer.parseInt(TablaDatos.getValueAt(fila, 4).toString());
+
+            // Asignar los valores a los campos de texto
+            txtidpedido.setText(String.valueOf(idPedido));
+            txtidproducto.setText(String.valueOf(idProducto));
+            txtcantidad.setText(String.valueOf(idCantidad));
+            txtidempleado.setText(String.valueOf(idEmpleado));
+            txtidproveedor.setText(String.valueOf(idProveedor));
+            txtcomentario.setText(comentario);
+        }
+    }//GEN-LAST:event_TablaDatosMouseClicked
 
     /**
      * @param args the command line arguments
