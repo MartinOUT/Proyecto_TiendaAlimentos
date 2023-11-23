@@ -59,6 +59,7 @@ public class frmcompra extends javax.swing.JFrame {
         txtTotal = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jComboBox1 = new javax.swing.JComboBox<>();
+        btnFacturar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -183,11 +184,27 @@ public class frmcompra extends javax.swing.JFrame {
 
         txtTotal.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         txtTotal.setText("0");
+        txtTotal.addAncestorListener(new javax.swing.event.AncestorListener() {
+            public void ancestorAdded(javax.swing.event.AncestorEvent evt) {
+                txtTotalAncestorAdded(evt);
+            }
+            public void ancestorMoved(javax.swing.event.AncestorEvent evt) {
+            }
+            public void ancestorRemoved(javax.swing.event.AncestorEvent evt) {
+            }
+        });
 
         jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel6.setText("DESCUENTO :");
 
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        btnFacturar.setText("FACTURAR");
+        btnFacturar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnFacturarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -199,17 +216,18 @@ public class frmcompra extends javax.swing.JFrame {
                         .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(btnFinalizar)
-                                .addGroup(layout.createSequentialGroup()
-                                    .addComponent(jLabel4)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(txtTotal)
-                                    .addGap(8, 8, 8)))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel6)
                                 .addGap(18, 18, 18)
-                                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addComponent(btnFacturar, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(btnFinalizar, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                    .addComponent(jLabel4)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(txtTotal)
+                                    .addGap(8, 8, 8)))))
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -233,9 +251,11 @@ public class frmcompra extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel4)
                             .addComponent(txtTotal))
-                        .addGap(36, 36, 36)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(btnFinalizar)
-                        .addGap(34, 34, 34))))
+                        .addGap(18, 18, 18)
+                        .addComponent(btnFacturar)
+                        .addGap(17, 17, 17))))
         );
 
         pack();
@@ -260,6 +280,16 @@ public class frmcompra extends javax.swing.JFrame {
     private void txtClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtClienteActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtClienteActionPerformed
+
+    private void txtTotalAncestorAdded(javax.swing.event.AncestorEvent evt) {//GEN-FIRST:event_txtTotalAncestorAdded
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtTotalAncestorAdded
+
+    private void btnFacturarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFacturarActionPerformed
+        Finalizar();
+        dispose();
+        AbrirFactura();
+    }//GEN-LAST:event_btnFacturarActionPerformed
 
   
     
@@ -353,13 +383,14 @@ public class frmcompra extends javax.swing.JFrame {
                     } catch (Exception e) {
                          e.printStackTrace();
                     }
-                    String sql = "INSERT INTO carritonuevo (idPrueba, nombre_producto, Cantidad, PrecioTotal) VALUES (?, ?, ?, ?)";
+                    String sql = "INSERT INTO carritonuevo (idPrueba, nombre_producto, Cantidad, PrecioTotal, precioUnitario) VALUES (?, ?, ?, ?, ?)";
                     try (Connection cnCarrito = con.getConnection();
                          PreparedStatement pstCarrito = cnCarrito.prepareStatement(sql)) {
                         pstCarrito.setInt(1, idCompra);
                         pstCarrito.setString(2, nombre_producto);
                         pstCarrito.setInt(3, Cantidad);
                         pstCarrito.setInt(4, PrecioTotal*Cantidad);
+                        pstCarrito.setInt(5, PrecioTotal);
                         pstCarrito.executeUpdate();
 
                         JOptionPane.showMessageDialog(null, "Producto agregado correctamente");
@@ -453,10 +484,17 @@ public class frmcompra extends javax.swing.JFrame {
         e.printStackTrace();
     }
 }
+   void  AbrirFactura() {
+        FrmFactura formularioCliente = new  FrmFactura();
+
+        // Hacer visible el formulario
+        formularioCliente.setVisible(true);
+   }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTable TablaDatos;
     private javax.swing.JButton btnAgregar;
+    private javax.swing.JButton btnFacturar;
     private javax.swing.JButton btnFinalizar;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
