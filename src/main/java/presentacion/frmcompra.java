@@ -26,6 +26,7 @@ public class frmcompra extends javax.swing.JFrame {
     public frmcompra() {
         initComponents();
         setLocationRelativeTo(null);
+        NroCompra();
         listar();
         modelo = (DefaultTableModel) TablaDatos.getModel();
         
@@ -47,10 +48,10 @@ public class frmcompra extends javax.swing.JFrame {
         btnAgregar = new javax.swing.JButton();
         jLabel7 = new javax.swing.JLabel();
         txtCantidad = new javax.swing.JTextField();
-        txtidCompra = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         txtCliente = new javax.swing.JTextField();
+        txtIDCOMPRA = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         TablaDatos = new javax.swing.JTable();
@@ -93,6 +94,9 @@ public class frmcompra extends javax.swing.JFrame {
             }
         });
 
+        txtIDCOMPRA.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        txtIDCOMPRA.setText("0");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -103,9 +107,11 @@ public class frmcompra extends javax.swing.JFrame {
                     .addComponent(jLabel5)
                     .addComponent(jLabel2))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(txtidCompra, javax.swing.GroupLayout.DEFAULT_SIZE, 76, Short.MAX_VALUE)
-                    .addComponent(txtCliente))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(txtCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(22, 22, 22)
+                        .addComponent(txtIDCOMPRA, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(28, 28, 28)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
@@ -132,8 +138,8 @@ public class frmcompra extends javax.swing.JFrame {
                     .addComponent(jLabel3)
                     .addComponent(txtIDProducto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnAgregar)
-                    .addComponent(txtidCompra, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2))
+                    .addComponent(jLabel2)
+                    .addComponent(txtIDCOMPRA))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7)
@@ -326,7 +332,7 @@ public class frmcompra extends javax.swing.JFrame {
     }
     
     void listar() {
-        String CompraID = txtidCompra.getText();
+        String CompraID = txtIDCOMPRA.getText();
     String sql = "SELECT * FROM `carritonuevo` WHERE idPrueba="+CompraID;
     try {
         cn = con.getConnection();
@@ -355,9 +361,38 @@ public class frmcompra extends javax.swing.JFrame {
         }
     }
 }
+    void NroCompra(){
+        int CompraID = 0;
+        String sql0 = "SELECT MAX(idPrueba) AS MaximoIdPrueba FROM pruebaCompra";
+        
+        try {
+            cn = con.getConnection();
+            st = cn.createStatement();
+            rs = st.executeQuery(sql0);
+
+            // Moverse a la primera fila del conjunto de resultados
+            if (rs.next()) {
+                CompraID = rs.getInt("MaximoIdPrueba") + 1;
+                // Ahora CompraID tiene el valor máximo de idPrueba
+            }
+        } catch (Exception e) {
+            e.printStackTrace(); // Añade un manejo adecuado de excepciones en tu código
+        } finally {
+            // Asegúrate de cerrar los recursos (ResultSet, Statement, Connection)
+            try {
+                if (rs != null) rs.close();
+                if (st != null) st.close();
+                if (cn != null) cn.close();
+            } catch (SQLException e) {
+                e.printStackTrace(); // Manejo adecuado de excepciones al cerrar recursos
+            }
+        }
+        String CompraString = String.valueOf(CompraID);
+        txtIDCOMPRA.setText(CompraString);
+    }
    void Agregar() {
     String nombre_producto;
-    int idCompra= Integer.parseInt(txtidCompra.getText());
+    int idCompra= Integer.parseInt(txtIDCOMPRA.getText());
     int idProducto = Integer.parseInt(txtIDProducto.getText());
     int Cantidad = Integer.parseInt(txtCantidad.getText());
     int PrecioTotal;
@@ -423,7 +458,7 @@ public class frmcompra extends javax.swing.JFrame {
         txtIDProducto.requestFocus();
    }
        void Total() {
-        String CompraID = txtidCompra.getText();
+        String CompraID = txtIDCOMPRA.getText();
         int TotalCompra = 0; // Inicializa la variable TotalCompra
       
         try {
@@ -462,7 +497,7 @@ public class frmcompra extends javax.swing.JFrame {
    }
    void Finalizar() {
     int idCliente = Integer.parseInt(txtCliente.getText());
-    int idCompra = Integer.parseInt(txtidCompra.getText());
+    int idCompra = Integer.parseInt(txtIDCOMPRA.getText());
     LocalDate date = LocalDate.now();
     String fechaCompra = date.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
     int total = TotalHistorial();
@@ -509,8 +544,8 @@ public class frmcompra extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextField txtCantidad;
     private javax.swing.JTextField txtCliente;
+    private javax.swing.JLabel txtIDCOMPRA;
     private javax.swing.JTextField txtIDProducto;
     private javax.swing.JLabel txtTotal;
-    private javax.swing.JTextField txtidCompra;
     // End of variables declaration//GEN-END:variables
 }
