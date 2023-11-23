@@ -46,6 +46,7 @@ public FrmEmpleado(){
                 st.executeUpdate(sql);
                 JOptionPane.showMessageDialog(null,"Los Datos han sido modificado exitosamente !!");
                 limpiartabla();
+                nuevo();
             } catch (Exception e) {
             }
         }
@@ -65,6 +66,7 @@ public FrmEmpleado(){
                 st = cn.createStatement();
                 st.executeUpdate(sql);
                 JOptionPane.showMessageDialog(null, "Usuario agregado Correctamente !");
+                nuevo();
                 limpiartabla();
             } catch (Exception e) {
                 e.printStackTrace();
