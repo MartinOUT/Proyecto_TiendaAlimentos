@@ -309,7 +309,7 @@ public FrmEmpleado(){
 
         TablaDatos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null}
+
             },
             new String [] {
                 "ID", "Nombre", "Email", "Telefono", "Direccion"

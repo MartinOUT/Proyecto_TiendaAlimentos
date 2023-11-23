@@ -114,10 +114,8 @@ public frmpedido(){
      void eliminar(){
           int idPEDIDO= Integer.parseInt(txtidpedido.getText());
           int filaseleccionado=TablaDatos.getSelectedRow();
-         if (filaseleccionado==-1){
-            JOptionPane.showMessageDialog(null,"Debe seleccionar fila");
-}else{
-             String sql= "delete from empleado where idPEDIDO="+idPEDIDO;
+         
+             String sql= "delete from pedido where idPEDIDO="+idPEDIDO;
        try {
          cn =con.getConnection();
          st= cn.createStatement();
@@ -125,9 +123,9 @@ public frmpedido(){
          JOptionPane.showMessageDialog(null,"Pedido eliminado con exito.");
          limpiartabla();
              } catch (Exception e) {
-             
+              e.printStackTrace();
          }
-       }
+       
     }
      
     void nuevo(){

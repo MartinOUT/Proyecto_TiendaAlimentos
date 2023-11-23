@@ -41,6 +41,9 @@ public class FrmClientes extends javax.swing.JFrame {
         txtemail = new javax.swing.JTextField();
         txttelefono = new javax.swing.JTextField();
         txtdireccion = new javax.swing.JTextField();
+        jLabel7 = new javax.swing.JLabel();
+        txtRUC = new javax.swing.JTextField();
+        txtIDCOMPRA = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         btnAgregar = new javax.swing.JButton();
@@ -65,6 +68,10 @@ public class FrmClientes extends javax.swing.JFrame {
 
         jLabel6.setText("Direccion");
 
+        jLabel7.setText("RUC:");
+
+        txtIDCOMPRA.setText("0");
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -81,8 +88,13 @@ public class FrmClientes extends javax.swing.JFrame {
                             .addComponent(jLabel4)
                             .addComponent(jLabel5))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txttelefono, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(txttelefono, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(jLabel7)
+                                .addGap(18, 18, 18)
+                                .addComponent(txtRUC))
                             .addComponent(txtemail, javax.swing.GroupLayout.PREFERRED_SIZE, 247, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -90,7 +102,10 @@ public class FrmClientes extends javax.swing.JFrame {
                             .addComponent(jLabel2))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtidCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(txtidCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(35, 35, 35)
+                                .addComponent(txtIDCOMPRA, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(txtnombre, javax.swing.GroupLayout.PREFERRED_SIZE, 247, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(46, Short.MAX_VALUE))
         );
@@ -100,7 +115,8 @@ public class FrmClientes extends javax.swing.JFrame {
                 .addGap(12, 12, 12)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(txtidCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtidCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtIDCOMPRA))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
@@ -112,7 +128,9 @@ public class FrmClientes extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
-                    .addComponent(txttelefono, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txttelefono, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel7)
+                    .addComponent(txtRUC, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
@@ -381,10 +399,11 @@ public class FrmClientes extends javax.swing.JFrame {
         String email= txtemail.getText();
         String telefono= txttelefono.getText();
         String direccion= txtdireccion.getText();
+        String RucCliente = txtRUC.getText();
         if(nombre_apellido.equals("") || email.equals("") || telefono.equals("") || direccion.equals("")){
             JOptionPane.showMessageDialog(null, "Debe rellenar todos los campos!!!");
         }else {
-            String sql = "Insert into cliente (idCLIENTE, nombre_apellido, email, telefono, direccion) values ('"+idCliente+"','"+nombre_apellido+"','"+email+"','"+telefono+"','"+direccion+"')";
+            String sql = "Insert into cliente (idCLIENTE, nombre_apellido, email, telefono, direccion, RucCliente) values ('"+idCliente+"','"+nombre_apellido+"','"+email+"','"+telefono+"','"+direccion+"','"+RucCliente+"')";
             try {
                 cn = con.getConnection();
                 st = cn.createStatement();
@@ -422,23 +441,22 @@ public class FrmClientes extends javax.swing.JFrame {
             }
         }
     }
-    void eliminar(){
-        int idCliente= Integer.parseInt(txtidCliente.getText());
+    void eliminar() {
+        int idCliente = Integer.parseInt(txtidCliente.getText());
         int filaseleccionado = TablaDatos.getSelectedRow();
-        if(filaseleccionado==-1){
-            JOptionPane.showMessageDialog(null, "Debe seleccionar una fila");
-        }else{
-            String sql = "delete from cliente where  idCLIENTE ="+idCliente;
-            try {
-                cn = con.getConnection();
-                st = cn.createStatement();
-                st.executeUpdate(sql);
-                JOptionPane.showMessageDialog(null, "El usuario fue eliminado correctamente");
-                limpiartabla();
-            } catch (Exception e) {
-            }
-        }
+
+        String sql = "DELETE FROM cliente WHERE idCLIENTE = ?";
+        try {
+            cn = con.getConnection();
+            PreparedStatement pst = cn.prepareStatement(sql);
+            pst.setInt(1, idCliente);
+            pst.executeUpdate();
+            JOptionPane.showMessageDialog(null, "El usuario fue eliminado correctamente");
+            limpiartabla();
+        } catch (Exception e) {
+            e.printStackTrace();
     }
+}
     void nuevo(){
         txtidCliente.setText("");
         txtnombre.setText("");
@@ -460,11 +478,14 @@ public class FrmClientes extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel txtIDCOMPRA;
+    private javax.swing.JTextField txtRUC;
     private javax.swing.JTextField txtdireccion;
     private javax.swing.JTextField txtemail;
     private javax.swing.JTextField txtidCliente;
